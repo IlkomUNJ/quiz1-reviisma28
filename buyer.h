@@ -1,28 +1,39 @@
 #ifndef BUYER_H
 #define BUYER_H
 
-#include <cstddef>
+#include <iostream>
 #include <string>
-#include "bank_customer.h"
+#include <cstdlib>
+#include <ctime>
+#include "bank_customer.h" 
 
 using namespace std;
 
 class Buyer {
-private:
-    int id;
+protected:
+    string id;
     string name;
-    BankCustomer &account; // Association with BankCustomer
-
+    string password;
+    BankCustomer *account; 
+    
 public:
-    Buyer(int id, const string& name, BankCustomer &account0)
-        : id(id), name(name), account(account0) {}
-
-    int getId() const { return id; }
+    Buyer(string n = "", string p = "", BankCustomer *acc = nullptr) 
+        : name(n), password(p), account(acc) {
+        srand(time(0) + rand());
+        id = "B" + to_string(rand() % 90000 + 10000); 
+    }
+    
+    // Getter dasar
+    string getId() const { return id; }
     string getName() const { return name; }
-    BankCustomer& getAccount() { return account; }
+    string getPassword() const { return password; }
+    BankCustomer *getAccount() const { return account; }
 
-    void setId(int newId) { id = newId; }
-    void setName(const std::string& newName) { name = newName; }
+    
+    void setAccount(BankCustomer *acc) { account = acc; }
+
+
+    virtual ~Buyer() = default;
 };
 
-#endif // BUYER_H
+#endif 
